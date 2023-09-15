@@ -1,0 +1,43 @@
+version: '3.11'
+
+volumes:
+    pgdata:
+
+services:
+  app:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_main
+    depends_on:
+      database:
+        condition: service_healthy
+    env_file:
+      - .env.docker
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+      - static:/app/static
+      - media:/app/media
+    command: sh -c "python manage.py makemigrations && 
+                    python manage.py migrate &&
+                    python manage.py runserver 0.0.0.0:8000 --insecure"
+
+  database:
+    image: postgres:15.2
+    container_name: postgres
+    restart: always
+    env_file:
+      - .env.docker
+    volumes:
+      - pgdata:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+
+
+
+
