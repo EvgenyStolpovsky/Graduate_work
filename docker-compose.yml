@@ -2,6 +2,8 @@ version: '3.11'
 
 volumes:
     pgdata:
+    static:
+    media:
 
 services:
   app:
@@ -23,6 +25,7 @@ services:
       - media:/app/media
     command: sh -c "python manage.py makemigrations && 
                     python manage.py migrate &&
+                    python manage.py fill &&
                     python manage.py runserver 0.0.0.0:8000 --insecure"
 
   database:
