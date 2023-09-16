@@ -19,7 +19,6 @@ class LessonListAPIView(generics.ListAPIView):
     queryset = Lesson.objects.all()
 
 
-
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
     """
     Отвечает за получение одной сущности в модели Lesson.

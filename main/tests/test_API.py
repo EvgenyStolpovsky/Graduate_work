@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.test import APITestCase,  APIClient
+from rest_framework.test import APITestCase, APIClient
 
 from main.models import Modul
 from main.serliazers.modul import ModulSerializer
@@ -22,7 +22,6 @@ class ModulApiTestCase(APITestCase):
         serializer_data = ModulSerializer([modul_1, modul_2], many=True).data
         self.assertEqual(response.data, serializer_data)
 
-
     def test_post(self):
         # Тестирование POST-запроса к API
 
@@ -30,7 +29,6 @@ class ModulApiTestCase(APITestCase):
         self.url = 'http://127.0.0.1:8000/courses/'
         response = self.client.post(self.url, self.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
 
     def test_delete(self):
         # Тестирование DELETE-запроса к API
@@ -48,7 +46,6 @@ class LessonApiTestCase(APITestCase):
         self.modul = Modul.objects.create(name='Test Modul', is_active=True)
 
     def test_get(self):
-
         url = 'http://127.0.0.1:8000/lessons/'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -82,5 +79,3 @@ class LessonApiTestCase(APITestCase):
         self.url = 'http://127.0.0.1:8000/lessons/delete/'
         response = self.client.post(self.url, self.lesson, format='json')
         self.assertEqual(response.status_code, 404)
-
-
